@@ -1,0 +1,185 @@
+<div id="crud-modal"
+     tabindex="-1"
+     aria-hidden="true"
+     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create New Employee</h3>
+        <button type="button"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-toggle="crud-modal">
+          <svg class="w-3 h-3"
+               aria-hidden="true"
+               xmlns="http://www.w3.org/2000/svg"
+               fill="none"
+               viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <form class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+            action="{% url 'manage-employees' %}"
+            method="post">
+        {% csrf_token %}
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <!-- Email -->
+          <div>
+            <label for="email"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Email Address
+              <span class="text-red-500">*</span>
+            </label>
+            <input id="email"
+                   name="email"
+                   type="email"
+                   autocomplete="email"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="john.doe@company.com">
+          </div>
+          <!-- Password -->
+          <div>
+            <label for="password"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Password
+              <span class="text-red-500">*</span>
+            </label>
+            <input id="password"
+                   name="password"
+                   type="password"
+                   autocomplete="new-password"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="•••••••••">
+          </div>
+          <!-- Name and Position -->
+          <div>
+            <label for="name"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Full Name
+              <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="name"
+                   id="name"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="John Doe">
+          </div>
+          <div>
+            <label for="position"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Position
+              <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="position"
+                   id="position"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="Software Engineer">
+          </div>
+          <!-- Department and Contact -->
+          <div>
+            <label for="department"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Department
+              <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="department"
+                   id="department"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="Engineering">
+          </div>
+          <div>
+            <label for="contact_number"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Contact Number
+              <span class="text-red-500">*</span>
+            </label>
+            <input type="tel"
+                   pattern="[0-9]{11}"
+                   name="contact_number"
+                   id="contact_number"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="02071234567">
+          </div>
+          <!-- Employment Date and Status -->
+          <div>
+            <label for="employment_date"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Employment Date
+              <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                {% comment %} <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="currentColor"
+                     viewBox="0 0 20 20">
+                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                </svg> {% endcomment %}
+              </div>
+              <input datepicker
+                     datepicker-autohide
+                     id="employment_date"
+                     name="employment_date"
+                     type="text"
+                     class="pl-9 w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                     placeholder="Select date">
+            </div>
+          </div>
+          <div>
+            <label for="status"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Status
+              <span class="text-red-500">*</span>
+            </label>
+            <select id="status"
+                    name="status"
+                    class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200">
+              <option selected value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <!-- Bank Account -->
+          <div class="md:col-span-2">
+            <label for="bank_account_num"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Bank Account Number
+              <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   name="bank_account_num"
+                   id="bank_account_num"
+                   required
+                   class="w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                   placeholder="1234 5678 9012 3456">
+          </div>
+        </div>
+        <br>
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full md:w-auto px-5 py-3 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <span>Add New Employee</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
