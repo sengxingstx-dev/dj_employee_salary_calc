@@ -11,7 +11,7 @@
       <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
         <div class="pl-2">
           {# --- TODO: Change this button later to export ATTENDANCE data --- #}
-          <a href="{% url 'export-attendance-excel' %}" {# <-- Changed URL name #}
+          <a href="{% url 'export-attendance-excel' %}"
             class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             <svg class="me-1 -ms-1 w-5 h-5"
                  fill="currentColor"
@@ -21,7 +21,7 @@
               <path clip-rule="evenodd" fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.7a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z">
               </path>
             </svg>
-            Export Attendance {# <-- Changed text #}
+            ດາວໂຫລດ Excel
           </a>
           {# --- End Export Button --- #}
         </div>
@@ -53,16 +53,16 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             {# --- Updated Table Headers --- #}
-            <tr>
+            <tr class="lao-table-header">
               <th scope="col" class="px-6 py-3">#</th>
-              <th scope="col" class="px-6 py-3">Employee</th>
-              <th scope="col" class="px-6 py-3">Date</th>
-              <th scope="col" class="px-6 py-3">Shift</th>
-              <th scope="col" class="px-6 py-3">Scan In</th>
-              <th scope="col" class="px-6 py-3">Scan Out</th>
-              <th scope="col" class="px-6 py-3">Hours Worked</th>
-              <th scope="col" class="px-6 py-3">Overtime</th>
-              <th scope="col" class="px-6 py-3">Status</th>
+              <th scope="col" class="px-6 py-3">ພະນັກງານ</th>
+              <th scope="col" class="px-6 py-3">ວັນທີ່</th>
+              <th scope="col" class="px-6 py-3">ເຂົ້າກະ</th>
+              <th scope="col" class="px-6 py-3">ສະແກນເຂົ້າ</th>
+              <th scope="col" class="px-6 py-3">ສະແກນອອກ</th>
+              <th scope="col" class="px-6 py-3">ຊົ່ວໂມງເຮັດວຽກ</th>
+              <th scope="col" class="px-6 py-3">ໂມງ OT</th>
+              <th scope="col" class="px-6 py-3">ສະຖານນະ</th>
               {# Add Actions column if needed later #}
               {# <th scope="col" class="px-6 py-3">Actions</th> #}
             </tr>

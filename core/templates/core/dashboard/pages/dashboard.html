@@ -1,157 +1,185 @@
 {% extends "core/dashboard/base.html" %}
+{% load humanize %}
+{% load static %}
 {% block title %}
   Admin | Dashboard
 {% endblock title %}
 {% block admincontent %}
   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-    <div class="grid grid-cols-3 gap-4 mb-4">
-      <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-    </div>
-    <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-      <p class="text-2xl text-gray-400 dark:text-gray-500">
-        <svg class="w-3.5 h-3.5"
-             aria-hidden="true"
-             xmlns="http://www.w3.org/2000/svg"
-             fill="none"
-             viewBox="0 0 18 18">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-        </svg>
+    {% comment %} <div class="mb-6">
+      <h1 class="text-3xl font-semibold text-gray-800 dark:text-white">Dashboard Overview</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Welcome back, {{ request.user.employee.name|default:request.user.email }}!
       </p>
+    </div> {% endcomment %}
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <!-- Total Employees Card -->
+      <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 uppercase dark:text-gray-400">ພະນັກງານທັງໝົດ</p>
+            <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ total_employees|intcomma }}</p>
+          </div>
+          <div class="p-3 bg-blue-100 rounded-full dark:bg-blue-500">
+            <svg class="w-8 h-8 text-blue-500 dark:text-blue-100"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+              </path>
+            </svg>
+          </div>
+        </div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <span class="text-green-500">{{ active_employees|intcomma }} ເຮັດວຽກຢູ່</span> /
+          <span class="text-red-500">{{ inactive_employees|intcomma }} ບໍໄດ້ເຮັດວຽກແລ້ວ</span>
+        </p>
+      </div>
+      <!-- Salaries Paid (Current Month) Card -->
+      <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 uppercase dark:text-gray-400">ເງິນເດືອນຊຳລະແລ້ວ (ເດືອນນີ້)</p>
+            <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ salaries_paid_current_month|intcomma }}</p>
+          </div>
+          <div class="p-3 bg-yellow-100 rounded-full dark:bg-yellow-500">
+            <svg class="w-8 h-8 text-yellow-500 dark:text-yellow-100"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- Salaries Pending (Current Month) Card -->
+      <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500 uppercase dark:text-gray-400">ເງິນເດືອນຄ້າງຊຳລະ (ເດືອນນີ້)</p>
+            <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ salaries_pending_current_month|intcomma }}</p>
+          </div>
+          <div class="p-3 bg-yellow-100 rounded-full dark:bg-yellow-500">
+            <svg class="w-8 h-8 text-yellow-500 dark:text-yellow-100"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+          </div>
+        </div>
+        <p class="mt-2 text-xs text-red-500 dark:text-red-400">Requires attention</p>
+      </div>
     </div>
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
+    <!-- Quick Links or Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Quick Links</h2>
+        <div class="space-y-3">
+          <a href="{% url 'manage-employees' %}"
+             class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+            <i class="fas fa-users mr-2"></i>Manage Employees
+          </a>
+          <a href="{% url 'manage-salary-calculations' %}"
+             class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+            <i class="fas fa-file-invoice-dollar mr-2"></i>Manage Salary Calculations
+          </a>
+          <a href="{% url 'manage-attendance' %}"
+             class="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+            <i class="fas fa-clock mr-2"></i>View Attendance Records
+          </a>
+          <!-- Add more links as needed -->
+        </div>
       </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
+      <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">ການເຄື່ອນໄຫວເງິນເດືອນລ່າສຸດ</h2>
+        {% if recent_salary_calculations %}
+          <ul class="space-y-3">
+            {% for calc in recent_salary_calculations %}
+              <li class="flex justify-between items-center text-sm">
+                <div>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">{{ calc.employee.name }}</span> -
+                  <span class="text-gray-500 dark:text-gray-400">{{ calc.month_year|date:"F Y" }}</span>
+                </div>
+                <span class="px-2 py-1 text-xs font-semibold leading-tight {% if calc.status == 'PAID' %} text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100 {% elif calc.status == 'PENDING' %} text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100 {% else %} text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100 {% endif %}">
+                  {{ calc.get_status_display }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-gray-500 dark:text-gray-400">No recent salary calculations found.</p>
+        {% endif %}
       </div>
     </div>
-    <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-      <p class="text-2xl text-gray-400 dark:text-gray-500">
-        <svg class="w-3.5 h-3.5"
-             aria-hidden="true"
-             xmlns="http://www.w3.org/2000/svg"
-             fill="none"
-             viewBox="0 0 18 18">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-        </svg>
-      </p>
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
-      </div>
-      <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-        <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5"
-               aria-hidden="true"
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-          </svg>
-        </p>
+    <!-- Placeholder for charts or more detailed reports -->
+    <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 mb-8"
+         id="salaryChartContainer">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Monthly Salary Overview (Chart)</h2>
+      <div class="h-96">
+        {# Adjust height as needed #}
+        <canvas id="salaryOverviewChart"></canvas>
       </div>
     </div>
   </div>
+  <!-- Char.js -->
+  {{ chart_labels|json_script:"chart-labels-data" }}
+  {{ chart_data_paid|json_script:"chart-data-paid-data" }}
+  {{ chart_data_pending|json_script:"chart-data-pending-data" }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const ctx = document.getElementById('salaryOverviewChart');
+      if (ctx) {
+        // Retrieve data from the script tags generated by json_script
+        const chartLabels = JSON.parse(document.getElementById('chart-labels-data').textContent);
+        const chartDataPaid = JSON.parse(document.getElementById('chart-data-paid-data').textContent);
+        const chartDataPending = JSON.parse(document.getElementById('chart-data-pending-data').textContent);
+
+        console.log("Parsed Chart Labels:", chartLabels); // For debugging
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: chartLabels,
+            datasets: [
+              {
+                label: 'Total Paid Salary',
+                data: chartDataPaid,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)', // Greenish
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              },
+              {
+                label: 'Total Pending Salary',
+                data: chartDataPending,
+                backgroundColor: 'rgba(255, 159, 64, 0.5)', // Orangish
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value, index, values) {
+                    return value.toLocaleString(); // Format y-axis numbers with commas
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
 {% endblock admincontent %}

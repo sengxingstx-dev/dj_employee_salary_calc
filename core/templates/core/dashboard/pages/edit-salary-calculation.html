@@ -1,0 +1,81 @@
+{% extends "core/dashboard/base.html" %}
+{% load static %}
+{% block title %}
+  {{ page_title|default:"Edit Salary Calculation" }}
+{% endblock title %}
+{% block admincontent %}
+  <div>
+    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+      <div class="mb-6">
+        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">{{ page_title }}</h1>
+      </div>
+      {% include "core/dashboard/partials/messages.html" %}
+      <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-800">
+        <form method="post">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for field in form %}
+              <div class="mb-4 {% if field.name == 'notes' %}md:col-span-2{% endif %}">
+                <label for="{{ field.id_for_label }}"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {{ field.label }}
+                  {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                </label>
+                {% comment %} Define names of fields that should be readonly and styled explicitly {% endcomment %}
+                {% with readonly_numeric_fields="basic_salary_snapshot overtime_rate_snapshot total_hours_worked total_overtime_hours total_deductions_amount total_bonuses_amount gross_salary net_salary" %}
+                  {% if field.name in readonly_numeric_fields.split %}
+                    <input type="number"
+                           name="{{ field.name }}"
+                           id="{{ field.id_for_label }}"
+                           value="{{ field.value|floatformat:2|default_if_none:'' }}"
+                           class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           readonly
+                           step="0.01">
+                  {% else %}
+                    {# For employee, month_year (disabled by form) and editable fields (status, payment_method, paid_at, notes) #}
+                    {{ field }}
+                  {% endif %}
+                {% endwith %}
+                {% if field.help_text %}<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ field.help_text }}</p>{% endif %}
+                {% for error in field.errors %}<p class="mt-1 text-xs text-red-500">{{ error }}</p>{% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <a href="{% url 'manage-salary-calculations' %}"
+               class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">ຍົກເລິກ</a>
+            <button type="submit"
+                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              ແກ້ໄຂ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock admincontent %}
+{% block scripts %}
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const statusField = document.getElementById('{{ form.status.id_for_label }}');
+    const paidAtField = document.getElementById('{{ form.paid_at.id_for_label }}');
+    const paymentMethodField = document.getElementById('{{ form.payment_method.id_for_label }}');
+
+    function togglePaymentFields() {
+        if (statusField.value === 'PAID') {
+            // If marking as PAID, you might want to make paid_at and payment_method required or visible
+            // For now, the form handles this.
+        } else {
+            // If not PAID, clear and disable paid_at and payment_method
+            if (paidAtField) paidAtField.value = '';
+            if (paymentMethodField) paymentMethodField.value = '';
+        }
+    }
+
+    if (statusField) {
+        statusField.addEventListener('change', togglePaymentFields);
+        // togglePaymentFields(); // Initial check
+    }
+});
+  </script>
+{% endblock scripts %}

@@ -80,6 +80,22 @@ urlpatterns = [
     path("dashboard/manage-products/", core_views.manage_products, name="manage-products"),
     # NOTE: Attendance
     path("dashboard/manage-attendance/", core_views.manage_attendance, name="manage-attendance"),
+    # NOTE: Salary Calculations
+    path(
+        "dashboard/manage-salary-calculations/",
+        core_views.manage_salary_calculations,
+        name="manage-salary-calculations",
+    ),
+    path(
+        "dashboard/manage-salary-calculations/<int:pk>/edit/",
+        core_views.edit_salary_calculation,
+        name="edit-salary-calculation",
+    ),
+    path(
+        "dashboard/manage-salary-calculations/<int:pk>/delete/",
+        core_views.delete_salary_calculation,
+        name="delete-salary-calculation",
+    ),
     # NOTE: Export to excel
     path(
         "dashboard/manage-employees/export-excel/",
@@ -87,8 +103,28 @@ urlpatterns = [
         name="export-employees-excel",
     ),
     path(
+        "dashboard/manage-salary-structures/export-excel/",
+        core_views.export_salary_structures_to_excel,
+        name="export-salary-structures-excel",
+    ),
+    path(
+        "dashboard/manage-deductions/export-excel/",
+        core_views.export_deductions_to_excel,
+        name="export-deductions-excel",
+    ),
+    path(
+        "dashboard/manage-bonuses/export-excel/",
+        core_views.export_bonuses_to_excel,
+        name="export-bonuses-excel",
+    ),
+    path(
         "dashboard/manage-attendance/export-excel/",
         core_views.export_attendance_to_excel,
         name="export-attendance-excel",
+    ),
+    path(
+        "dashboard/manage-salary-calculations/export-excel/",
+        core_views.export_salary_calculations_to_excel,
+        name="export-salary-calculations-excel",
     ),
 ]

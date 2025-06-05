@@ -1,5 +1,6 @@
 {% extends "core/dashboard/base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}
   Admin | Deductions
 {% endblock title %}
@@ -19,8 +20,22 @@
               <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd">
               </path>
             </svg>
-            Add Deduction
+            ເພີ່ມຕັດເງິນເດືອນ
           </button>
+          {# --- Add Export to Excel Button Here --- #}
+          <a href="{% url 'export-deductions-excel' %}"
+             class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <svg class="me-1 -ms-1 w-5 h-5"
+                 fill="currentColor"
+                 viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true">
+              <path clip-rule="evenodd" fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.7a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z">
+              </path>
+            </svg>
+            ດາວໂຫລດ Excel
+          </a>
+          {# --- End Export Button --- #}
           {% comment %} Add employee modal {% endcomment %}
           {% include "core/dashboard/modals/add/add-deduction-modal.html" %}
         </div>
@@ -40,19 +55,19 @@
                    id="table-search-users"
                    name="search"
                    class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="Search for users">
+                   placeholder="Search for deduction">
           </div>
         </form>
       </div>
       <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
+          <tr class="lao-table-header">
             <th scope="col" class="px-6 py-3">No.</th>
-            <th scope="col" class="px-6 py-3">Employee</th>
-            <th scope="col" class="px-6 py-3">date</th>
-            <th scope="col" class="px-6 py-3">Reason</th>
-            <th scope="col" class="px-6 py-3">Amount</th>
-            <th scope="col" class="px-6 py-3">Action</th>
+            <th scope="col" class="px-6 py-3">ພະນັກງານ</th>
+            <th scope="col" class="px-6 py-3">ວັນທີ່</th>
+            <th scope="col" class="px-6 py-3">ເຫດຜົນ</th>
+            <th scope="col" class="px-6 py-3">ຈຳນວນເງິນ</th>
+            <th scope="col" class="px-6 py-3">ຈັດການ</th>
           </tr>
         </thead>
         <tbody>
@@ -63,23 +78,21 @@
                 <td class="px-6 py-4">{{ deduction.employee }}</td>
                 <td class="px-6 py-4">{{ deduction.date|date:'d/m/Y' }}</td>
                 <td class="px-6 py-4">{{ deduction.reason }}</td>
-                <td class="px-6 py-4">{{ deduction.amount }}</td>
-
+                <td class="px-6 py-4">{{ deduction.amount|intcomma }}</td>
                 <td class="px-6 py-4">
                   <!-- Modal toggle -->
                   <a href="#"
                      type="button"
                      data-modal-target="editModal-{{ deduction.id }}"
                      data-modal-show="editModal-{{ deduction.id }}"
-                     class="font-medium text-blue-600 mr-2 dark:text-blue-500 hover:underline">Edit</a>
+                     class="font-medium text-blue-600 mr-2 dark:text-blue-500 hover:underline">ແກ້ໄຂ</a>
                   <a href="#"
                      type="button"
                      data-modal-target="deletePopupModal-{{ deduction.id }}"
                      data-modal-show="deletePopupModal-{{ deduction.id }}"
-                     class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                     class="font-medium text-red-600 dark:text-red-500 hover:underline">ລືບ</a>
                   <!-- Edit salary deduction modal -->
                   {% include "core/dashboard/modals/edit/edit-deduction-modal.html" %}
-
                   <!-- Delete salary deduction modal -->
                   <form action="{% url 'delete-deduction' deduction.id %}" method="post">
                     {% csrf_token %}

@@ -5,6 +5,8 @@
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
 
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   content: [
     /**
@@ -48,17 +50,17 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: "#fdf4ff",
-          100: "#fae8ff",
-          200: "#f5d0fe",
-          300: "#f0abfc",
-          400: "#e879f9",
-          500: "#d946ef",
-          600: "#c026d3",
-          700: "#a21caf",
-          800: "#86198f",
-          900: "#701a75",
-          950: "#4a044e",
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd", // Used for focus:ring-primary-300
+          400: "#60a5fa",
+          500: "#3b82f6", // A common base primary color
+          600: "#2563eb", // Used for dark:bg-primary-600 - should contrast with white
+          700: "#1d4ed8", // Used for bg-primary-700 - should contrast with white
+          800: "#1e40af", // Used for hover states
+          900: "#1e3a8a",
+          950: "#172554",
         },
       },
     },

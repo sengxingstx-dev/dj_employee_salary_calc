@@ -1,0 +1,188 @@
+{% extends "core/dashboard/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+  Manage Salary Calculations
+{% endblock title %}
+{% block admincontent %}
+  <div>
+    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+      <div class="mb-6">
+        {% comment %} <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Manage Salary Calculations</h1> {% endcomment %}
+        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">ຂໍ້ມູນເງິນເດືອນພະນັກງານ</h1>
+      </div>
+      {% include "core/dashboard/partials/messages.html" %}
+      <!-- Salary Generation Form -->
+      <div class="mb-6 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+        {% comment %} <h2 class="text-xl font-semibold text-gray-700 dark:text-white mb-3">Generate Salaries</h2> {% endcomment %}
+        <h2 class="text-xl font-semibold text-gray-700 dark:text-white mb-3">ຄຳນວນເງິນເດືອນ</h2>
+        <form method="post" action="{% url 'manage-salary-calculations' %}">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label for="generate_year"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກປີ</label>
+              <select id="generate_year"
+                      name="generate_year"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                {% for year_val in years %}
+                  <option value="{{ year_val }}"
+                          {% if year_val == selected_year|add:0 %}selected{% endif %}>{{ year_val }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label for="generate_month"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກເດືອນ</label>
+              <select id="generate_month"
+                      name="generate_month"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                {% for month_num, month_name in months %}
+                  <option value="{{ month_num }}"
+                          {% if month_num == selected_month|add:0 %}selected{% endif %}>{{ month_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div>
+              <label for="generate_employee_id"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ພະນັກງານ (ທາງເລືອກ)</label>
+              <select id="generate_employee_id"
+                      name="generate_employee_id"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="">ເລືອກພະນັກງານທັງໝົດ</option>
+                {% for emp in employees %}<option value="{{ emp.id }}">{{ emp.name }}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+          <button type="submit"
+                  name="generate_salary"
+                  class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            ຄຳນວນເງິນເດືອນ
+          </button>
+        </form>
+      </div>
+      <!-- Filters -->
+      <form method="get"
+            action="{% url 'manage-salary-calculations' %}"
+            class="mb-6 p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label for="filter_year"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກປີ</label>
+            <select id="filter_year"
+                    name="year"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              <option value="">ປີທັງໝົດ</option>
+              {% for year_val in years %}
+                <option value="{{ year_val }}"
+                        {% if year_val == selected_year|add:0 %}selected{% endif %}>{{ year_val }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label for="filter_month"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກເດືອນ</label>
+            <select id="filter_month"
+                    name="month"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              <option value="">ເດືອນທັງໝົດ</option>
+              {% for month_num, month_name in months %}
+                <option value="{{ month_num }}"
+                        {% if month_num == selected_month|add:0 %}selected{% endif %}>{{ month_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label for="filter_employee"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກພະນັກງານ</label>
+            <select id="filter_employee"
+                    name="employee"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              <option value="">ເລືອກພະນັກງານທັງໝົດ</option>
+              {% for emp in employees %}
+                <option value="{{ emp.id }}"
+                        {% if emp.id == selected_employee_id|add:0 %}selected{% endif %}>{{ emp.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label for="filter_status"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເລືອກສະຖານະ</label>
+            <select id="filter_status"
+                    name="status"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              <option value="">ສະຖານະທັງໝົດ</option>
+              {% for status_val, status_name in status_choices %}
+                <option value="{{ status_val }}"
+                        {% if status_val == selected_status %}selected{% endif %}>{{ status_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button type="submit"
+                class="mt-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+          ກອງຂໍ້ມູນ
+        </button>
+        <a href="{% url 'export-salary-calculations-excel' %}?year={{ selected_year }}&month={{ selected_month }}&employee={{ selected_employee_id }}&status={{ selected_status }}"
+           class="mt-4 ml-2 inline-flex items-center text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800">
+          <svg class="w-4 h-4 mr-2"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
+            </path>
+          </svg>
+          ດາວໂຫລດ Excel
+        </a>
+      </form>
+      <!-- Salary Calculations Table -->
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr class="lao-table-header-sm">
+              <th scope="col" class="px-6 py-3">ພະນັກງານ</th>
+              <th scope="col" class="px-6 py-3">ເດືອນ/ປີ</th>
+              <th scope="col" class="px-6 py-3">ເງິນເດືອນສຸດທິ</th>
+              <th scope="col" class="px-6 py-3">ສະຖານະ</th>
+              <th scope="col" class="px-6 py-3">ວິທີການຊຳລະ</th>
+              <th scope="col" class="px-6 py-3">ເບີກເງິນວັນທີ່</th>
+              <th scope="col" class="px-6 py-3">ຈັດການ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for calc in salary_calculations %}
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ calc.employee.name }}</td>
+                <td class="px-6 py-4">{{ calc.month_year|date:"F Y" }}</td>
+                <td class="px-6 py-4">{{ calc.net_salary|floatformat:2|intcomma }}</td>
+                <td class="px-6 py-4">
+                  <span class="px-2 py-1 font-semibold leading-tight {% if calc.status == 'PAID' %} text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100 {% elif calc.status == 'PENDING' %} text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100 {% else %} text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100 {% endif %}">
+                    {{ calc.get_status_display }}
+                  </span>
+                </td>
+                <td class="px-6 py-4">{{ calc.get_payment_method_display|default:"N/A" }}</td>
+                <td class="px-6 py-4">{{ calc.paid_at|date:"Y-m-d H:i"|default:"N/A" }}</td>
+                <td class="px-6 py-4">
+                  <a href="{% url 'edit-salary-calculation' calc.pk %}"
+                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">ແກ້ໄຂ/ໝາຍຈ່າຍ</a>
+                  <button type="button"
+                          data-modal-target="deleteModal-{{ calc.pk }}"
+                          data-modal-toggle="deleteModal-{{ calc.pk }}"
+                          class="font-medium text-red-600 dark:text-red-500 hover:underline">ລືບ</button>
+                  {% include "core/dashboard/partials/delete_confirm_modal.html" with object_id=calc.pk delete_url_name="delete-salary-calculation" %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7"
+                    class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No salary calculations found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% include "core/dashboard/partials/pagination.html" with page_obj=salary_calculations %}
+    </div>
+  </div>
+{% endblock admincontent %}

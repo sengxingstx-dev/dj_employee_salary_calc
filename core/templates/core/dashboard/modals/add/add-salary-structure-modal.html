@@ -7,7 +7,7 @@
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
       <!-- Modal header -->
       <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create New Salary Structure</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">ເພີ່ມເງິນເດືອນພື້ນຖານ</h3>
         <button type="button"
                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-toggle="crud-modal">
@@ -29,17 +29,17 @@
         <div class="grid gap-4 mb-4 grid-cols-2">
           <div class="col-span-2">
             <label for="employee"
-                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ພະນັກງານ</label>
             <select id="employee"
                     name="employee"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option selected>Choose employee</option>
+              <option selected>ເລືອກພະນັກງານ</option>
               {% for employee in employees %}<option value="{{ employee.id }}">{{ employee.name }}</option>{% endfor %}
             </select>
           </div>
           <div class="col-span-2">
             <label for="basic_salary"
-                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Basic Salary</label>
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ເງິນເດືອນພື້ນຖານ</label>
             <input type="number"
                    name="basic_salary"
                    id="basic_salary"
@@ -51,7 +51,7 @@
           </div>
           <div class="col-span-2">
             <label for="overtime_rate"
-                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Overtime Rate</label>
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OT</label>
             <input type="number"
                    name="overtime_rate"
                    id="overtime_rate"
@@ -63,7 +63,7 @@
           </div>
           <div class="col-span-2">
             <label for="bonus_percentage"
-                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bonus Percentage</label>
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ໂບນັດ(%)</label>
             <input type="number"
                    name="bonus_percentage"
                    id="bonus_percentage"
@@ -83,7 +83,7 @@
             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd">
             </path>
           </svg>
-          Add new employee
+          ເພີ່ມ
         </button>
       </form>
     </div>
