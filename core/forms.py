@@ -85,6 +85,22 @@ class SalaryCalculationsForm(forms.ModelForm):
             "paid_at",
             "notes",
         ]
+        labels = {
+            "employee": "ພະນັກງານ",
+            "month_year": "ເດືອນ/ປີ",
+            "basic_salary_snapshot": "ເງິນເດືອນພື້ນຖານ",
+            "overtime_rate_snapshot": "ອັດຕາ OT",
+            "total_hours_worked": "ຊົ່ວໂມງເຮັດວຽກທັງໝົດ",
+            "total_overtime_hours": "ຊົ່ວໂມງ OT ທັງໝົດ",
+            "total_deductions_amount": "ຍອດຫັກທັງໝົດ",
+            "total_bonuses_amount": "ຍອດໂບນັດທັງໝົດ",
+            "gross_salary": "ເງິນເດືອນລວມຍອດ",
+            "net_salary": "ເງິນເດືອນສຸດທິ",
+            "status": "ສະຖານະ",
+            "payment_method": "ວິທີການຊຳລະເງິນ",
+            "paid_at": "ຊຳລະເມື່ອ",
+            "notes": "ໝາຍເຫດ",
+        }
         widgets = {
             # Make most fields readonly when editing, focus on status & payment
             "employee": forms.Select(attrs={"readonly": "readonly", "disabled": "disabled"}),
