@@ -1,0 +1,120 @@
+{% extends "core/dashboard/base.html" %}
+{% load humanize %}
+{% block title %}
+  View Salary Calculation
+{% endblock title %}
+{% block admincontent %}
+  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">ລາຍລະອຽດເງິນເດືອນ</h1>
+        <div>
+          <a href="{% url 'manage-salary-calculations' %}"
+             class="text-blue-500 hover:underline">ກັບຄືນ</a>
+        </div>
+      </div>
+      <!-- Employee Information -->
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-gray-700 dark:text-white">ຂໍ້ມູນພະນັກງານ</h2>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຊື່:
+          <span class="font-medium">{{ calculation.employee.name }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຕຳແໜ່ງ:
+          <span class="font-medium">{{ calculation.employee.position }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ພະແນກ:
+          <span class="font-medium">{{ calculation.employee.department }}</span>
+        </p>
+      </div>
+      <!-- Calculation Details -->
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-gray-700 dark:text-white">ລາຍລະອຽດການຄິດໄລ່</h2>
+        <p class="text-gray-600 dark:text-gray-300">
+          ເດືອນ/ປີ:
+          <span class="font-medium">{{ calculation.month_year|date:"F Y" }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ເງິນເດືອນພື້ນຖານ:
+          <span class="font-medium">{{ calculation.basic_salary_snapshot|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ອັດຕາ OT:
+          <span class="font-medium">{{ calculation.overtime_rate_snapshot|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຊົ່ວໂມງເຮັດວຽກທັງໝົດ:
+          <span class="font-medium">{{ calculation.total_hours_worked|floatformat:2 }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຊົ່ວໂມງ OT ທັງໝົດ:
+          <span class="font-medium">{{ calculation.total_overtime_hours|floatformat:2 }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ໂບນັດທັງໝົດ:
+          <span class="font-medium">{{ calculation.total_bonuses_amount|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ເງິນເດືອນລວມ:
+          <span class="font-medium">{{ calculation.gross_salary|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຄ່າຫັກທັງໝົດ:
+          <span class="font-medium">{{ calculation.total_deductions_amount|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ເງິນເດືອນສຸດທິ:
+          <span class="font-bold text-lg">{{ calculation.net_salary|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ສະຖານະ:
+          <span class="font-medium">{{ calculation.get_status_display }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ວິທີການຊຳລະ:
+          <span class="font-medium">{{ calculation.get_payment_method_display|default:"N/A" }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ຊຳລະເມື່ອ:
+          <span class="font-medium">{{ calculation.paid_at|date:"Y-m-d H:i"|default:"N/A" }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          ໝາຍເຫດ:
+          <span class="font-medium">{{ calculation.notes|default:"ບໍ່ມີ" }}</span>
+        </p>
+      </div>
+      <!-- Salary Slip Layout (Example) -->
+      <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+          Salary Slip
+          <span class="text-sm text-gray-500 dark:text-gray-300">({{ calculation.month_year|date:"F Y" }})</span>
+        </h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-gray-600 dark:text-gray-300">
+              ຊື່ພະນັກງານ:
+              <span class="font-medium">{{ calculation.employee.name }}</span>
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              ຕຳແໜ່ງ:
+              <span class="font-medium">{{ calculation.employee.position }}</span>
+            </p>
+          </div>
+          <div>
+            <p class="text-gray-600 dark:text-gray-300">
+              ເງິນເດືອນພື້ນຖານ:
+              <span class="font-medium">{{ calculation.basic_salary_snapshot|floatformat:2|intcomma }}</span>
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              ເງິນເດືອນສຸດທິ:
+              <span class="font-bold text-lg">{{ calculation.net_salary|floatformat:2|intcomma }}</span>
+            </p>
+          </div>
+        </div>
+        <!-- Add more details to the salary slip as needed -->
+      </div>
+    </div>
+  </div>
+{% endblock admincontent %}

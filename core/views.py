@@ -753,6 +753,15 @@ def manage_salary_calculations(request):
 
 
 @login_required
+def view_salary_calculation(request, pk):
+    calculation = get_object_or_404(SalaryCalculations, pk=pk)
+    context = {
+        "calculation": calculation,
+    }
+    return render(request, "core/dashboard/pages/view-salary-calculation.html", context)
+
+
+@login_required
 def edit_salary_calculation(request, pk):
     calculation = get_object_or_404(SalaryCalculations, pk=pk)
     if request.method == "POST":

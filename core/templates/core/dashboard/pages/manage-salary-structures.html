@@ -65,8 +65,8 @@
             <th scope="col" class="px-6 py-3">No.</th>
             <th scope="col" class="px-6 py-3">ພະນັກງານ</th>
             <th scope="col" class="px-6 py-3">ເງິນເດືອນພື້ນຖານ</th>
-            <th scope="col" class="px-6 py-3">OT</th>
-            <th scope="col" class="px-6 py-3">ໂບນັດ(%)</th>
+            {% comment %} <th scope="col" class="px-6 py-3">OT</th>
+            <th scope="col" class="px-6 py-3">ໂບນັດ(%)</th> {% endcomment %}
             <th scope="col" class="px-6 py-3">ວັນທີ່ສ້າງ</th>
             <th scope="col" class="px-6 py-3">ວັນທີ່ອັບເດດລ່າສຸດ</th>
             <th scope="col" class="px-6 py-3">ຈັດການ</th>
@@ -79,8 +79,8 @@
                 <td class="px-6 py-4">{{ forloop.counter }}</td>
                 <td class="px-6 py-4">{{ structure.employee }}</td>
                 <td class="px-6 py-4">{{ structure.basic_salary|intcomma }}</td>
-                <td class="px-6 py-4">{{ structure.overtime_rate|intcomma }}</td>
-                <td class="px-6 py-4">{{ structure.bonus_percentage }}</td>
+                {% comment %} <td class="px-6 py-4">{{ structure.overtime_rate|intcomma }}</td>
+                <td class="px-6 py-4">{{ structure.bonus_percentage }}</td> {% endcomment %}
                 <td class="px-6 py-4">{{ structure.created_at|date:'d/m/Y' }}</td>
                 <td class="px-6 py-4">{{ structure.updated_at|date:'d/m/Y' }}</td>
                 <td class="px-6 py-4">

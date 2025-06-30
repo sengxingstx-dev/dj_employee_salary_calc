@@ -87,6 +87,11 @@ urlpatterns = [
         name="manage-salary-calculations",
     ),
     path(
+        "dashboard/manage-salary-calculations/<int:pk>/view/",
+        core_views.view_salary_calculation,
+        name="view-salary-calculation",
+    ),
+    path(
         "dashboard/manage-salary-calculations/<int:pk>/edit/",
         core_views.edit_salary_calculation,
         name="edit-salary-calculation",
