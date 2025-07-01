@@ -41,7 +41,7 @@
           <span class="font-medium">{{ calculation.basic_salary_snapshot|floatformat:2|intcomma }}</span>
         </p>
         <p class="text-gray-600 dark:text-gray-300">
-          ອັດຕາ OT:
+          ອັດຕາ OT/ຊົ່ວໂມງ:
           <span class="font-medium">{{ calculation.overtime_rate_snapshot|floatformat:2|intcomma }}</span>
         </p>
         <p class="text-gray-600 dark:text-gray-300">
@@ -53,8 +53,12 @@
           <span class="font-medium">{{ calculation.total_overtime_hours|floatformat:2 }}</span>
         </p>
         <p class="text-gray-600 dark:text-gray-300">
+          ລວມເງິນ OT:
+          <span class="font-medium text-green-600 dark:text-green-400">{{ calculation.total_overtime_pay|floatformat:2|intcomma }}</span>
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
           ໂບນັດທັງໝົດ:
-          <span class="font-medium">{{ calculation.total_bonuses_amount|floatformat:2|intcomma }}</span>
+          <span class="font-medium text-green-600">{{ calculation.total_bonuses_amount|floatformat:2|intcomma }}</span>
         </p>
         <p class="text-gray-600 dark:text-gray-300">
           ເງິນເດືອນລວມ:
@@ -62,7 +66,7 @@
         </p>
         <p class="text-gray-600 dark:text-gray-300">
           ຄ່າຫັກທັງໝົດ:
-          <span class="font-medium">{{ calculation.total_deductions_amount|floatformat:2|intcomma }}</span>
+          <span class="font-medium text-red-600">{{ calculation.total_deductions_amount|floatformat:2|intcomma }}</span>
         </p>
         <p class="text-gray-600 dark:text-gray-300">
           ເງິນເດືອນສຸດທິ:

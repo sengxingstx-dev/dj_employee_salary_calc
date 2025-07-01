@@ -164,3 +164,8 @@ class SalaryCalculations(BaseModel):
     @property
     def year_display(self):
         return self.month_year.strftime("%Y")
+
+    @property
+    def total_overtime_pay(self):
+        """Calculates the total pay from overtime hours."""
+        return self.total_overtime_hours * self.overtime_rate_snapshot
