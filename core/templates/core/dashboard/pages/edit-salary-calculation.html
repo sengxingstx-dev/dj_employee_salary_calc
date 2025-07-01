@@ -1,5 +1,6 @@
 {% extends "core/dashboard/base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}
   {{ page_title|default:"Edit Salary Calculation" }}
 {% endblock title %}
@@ -10,6 +11,57 @@
         <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">{{ page_title }}</h1>
       </div>
       {% include "core/dashboard/partials/messages.html" %}
+
+      <!-- Add Salary Details View Section -->
+      <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 p-8 mb-6">
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-gray-700 dark:text-white">ຂໍ້ມູນພະນັກງານ</h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            ຊື່: <span class="font-medium">{{ calculation.employee.name }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ຕຳແໜ່ງ: <span class="font-medium">{{ calculation.employee.position }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ພະແນກ: <span class="font-medium">{{ calculation.employee.department }}</span>
+          </p>
+        </div>
+        
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold text-gray-700 dark:text-white">ລາຍລະອຽດການຄິດໄລ່</h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            ເດືອນ/ປີ: <span class="font-medium">{{ calculation.month_year|date:"F Y" }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ເງິນເດືອນພື້ນຖານ: <span class="font-medium">{{ calculation.basic_salary_snapshot|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ອັດຕາ OT/ຊົ່ວໂມງ: <span class="font-medium">{{ calculation.overtime_rate_snapshot|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ຊົ່ວໂມງເຮັດວຽກທັງໝົດ: <span class="font-medium">{{ calculation.total_hours_worked|floatformat:2 }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ຊົ່ວໂມງ OT ທັງໝົດ: <span class="font-medium">{{ calculation.total_overtime_hours|floatformat:2 }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ລວມເງິນ OT: <span class="font-medium text-green-600 dark:text-green-400">{{ calculation.total_overtime_pay|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ໂບນັດທັງໝົດ: <span class="font-medium text-green-600">{{ calculation.total_bonuses_amount|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ເງິນເດືອນລວມ: <span class="font-medium">{{ calculation.gross_salary|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ຄ່າຫັກທັງໝົດ: <span class="font-medium text-red-600">{{ calculation.total_deductions_amount|floatformat:2|intcomma }}</span>
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            ເງິນເດືອນສຸດທິ: <span class="font-bold text-lg">{{ calculation.net_salary|floatformat:2|intcomma }}</span>
+          </p>
+        </div>
+      </div>
+
       <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-800">
         <form method="post">
           {% csrf_token %}
