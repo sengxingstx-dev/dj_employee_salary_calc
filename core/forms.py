@@ -89,9 +89,10 @@ class SalaryCalculationsForm(forms.ModelForm):
             "employee": "ພະນັກງານ",
             "month_year": "ເດືອນ/ປີ",
             "basic_salary_snapshot": "ເງິນເດືອນພື້ນຖານ",
-            "overtime_rate_snapshot": "ອັດຕາ OT",
+            "overtime_rate_snapshot": "ອັດຕາ OT/ຊົ່ວໂມງ",
             "total_hours_worked": "ຊົ່ວໂມງເຮັດວຽກທັງໝົດ",
             "total_overtime_hours": "ຊົ່ວໂມງ OT ທັງໝົດ",
+            "total_overtime_pay": "ຈຳນວນເງິນ OT ທັງໝົດ",
             "total_deductions_amount": "ຍອດຫັກທັງໝົດ",
             "total_bonuses_amount": "ຍອດໂບນັດທັງໝົດ",
             "gross_salary": "ເງິນເດືອນລວມຍອດ",
@@ -115,6 +116,7 @@ class SalaryCalculationsForm(forms.ModelForm):
             "total_overtime_hours": forms.NumberInput(
                 attrs={"readonly": "readonly", "step": "0.01"}
             ),
+            "total_overtime_pay": forms.NumberInput(attrs={"readonly": "readonly", "step": "0.01"}),
             "total_deductions_amount": forms.NumberInput(
                 attrs={"readonly": "readonly", "step": "0.01"}
             ),

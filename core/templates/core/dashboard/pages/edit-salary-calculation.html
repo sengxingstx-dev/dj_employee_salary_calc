@@ -11,9 +11,8 @@
         <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">{{ page_title }}</h1>
       </div>
       {% include "core/dashboard/partials/messages.html" %}
-
       <!-- Add Salary Details View Section -->
-      <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 p-8 mb-6">
+      {% comment %} <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 p-8 mb-6">
         <div class="mb-6">
           <h2 class="text-xl font-semibold text-gray-700 dark:text-white">ຂໍ້ມູນພະນັກງານ</h2>
           <p class="text-gray-600 dark:text-gray-300">
@@ -60,8 +59,7 @@
             ເງິນເດືອນສຸດທິ: <span class="font-bold text-lg">{{ calculation.net_salary|floatformat:2|intcomma }}</span>
           </p>
         </div>
-      </div>
-
+      </div> {% endcomment %}
       <div class="bg-white p-6 rounded-lg shadow dark:bg-gray-800">
         <form method="post">
           {% csrf_token %}
@@ -83,6 +81,19 @@
                            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            readonly
                            step="0.01">
+                    {% if field.name == 'total_overtime_hours' %}
+                      {% comment %} <p class="text-gray-600 dark:text-gray-300">
+                        ລວມເງິນ OT: <span class="font-medium text-green-600 dark:text-green-400">{{ calculation.total_overtime_pay|floatformat:2|intcomma }}</span>
+                      </p> {% endcomment %}
+                      <span>ລວມເງິນ OT:</span>
+                      <input type="text"
+                           name="{{ field.name }}-2"
+                           id="{{ field.id_for_label }}-2"
+                           value="{{ calculation.total_overtime_pay|floatformat:2|intcomma }}"
+                           class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           readonly
+                           step="0.01">
+                    {% endif %}
                   {% else %}
                     {# For employee, month_year (disabled by form) and editable fields (status, payment_method, paid_at, notes) #}
                     {{ field }}
